@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="tab-menu-container">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab" (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+  </div>
+  <p-button #profileMenuButton [label]="firstName.charAt(0) + lastName.charAt(0)" styleClass="mr-2 rounded-button p-button-icon-label"
+            (onClick)="onProfileMenuButtonClick()"></p-button>
+</div>
+
+<div class="profile-menu-container">
+  <div class="body">
+    <div *ngIf="activeTab?.label === 'Membres'">
+      <app-member-list></app-member-list>
+    </div>
+
+    <div *ngIf="activeTab?.label === 'Groupes'">
+      <p>Les groupes</p>
+    </div>
+
+    <div *ngIf="activeTab?.label === 'Matériel'">
+      <p>Le matériel</p>
+    </div>
+  </div>
+  <div *ngIf="showProfileMenu">
+    <p-panelMenu #profileMenu [model]="profileMenuItems"></p-panelMenu>
+  </div>
+</div>

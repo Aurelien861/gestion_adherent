@@ -21,6 +21,14 @@
   flex-grow: 1;
 }
 
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 3.6rem;
+  margin-right: 1rem;
+}
+
 :host {
   ::ng-deep .p-button {
     width: 2.6em;

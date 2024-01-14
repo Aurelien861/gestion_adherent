@@ -20,7 +20,8 @@
       <p>Le matériel</p>
     </div>
   </div>
-  <div *ngIf="showProfileMenu">
-    <p-panelMenu #profileMenu [model]="profileMenuItems"></p-panelMenu>
-  </div>
+</div>
+
+<div *ngIf="showProfileMenu" class="top-right">
+  <p-panelMenu #profileMenu [model]="profileMenuItems"></p-panelMenu>
 </div>

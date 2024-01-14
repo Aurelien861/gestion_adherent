@@ -7,51 +7,51 @@ export class MemberService {
       {
         id: '1000',
         name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
+        firstname: 'Aurélien Watch',
         address: {
           id: '1000',
-          number: 29,
+          number: 27,
           street: 'rue Jean Jaurès',
           city: 'Anzin',
           cp: 59410
         },
-        email: 'bamboo-watch.jpg'
+        email: 'a'
       },
       {
         id: '1000',
         name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
+        firstname: 'Eloise Watch',
         address: {
           id: '1000',
           number: 29,
           street: 'rue Jean Jaurès',
-          city: 'Anzin',
+          city: 'Valenciennes',
           cp: 59410
         },
-        email: 'bamboo-watch.jpg'
+        email: 'b'
       },
       {
         id: '1000',
         name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
+        firstname: 'Mathéo Watch',
         address: {
           id: '1000',
-          number: 29,
+          number: 28,
           street: 'rue Jean Jaurès',
-          city: 'Anzin',
+          city: 'Lille',
           cp: 59410
         },
-        email: 'bamboo-watch.jpg'
+        email: 'z'
       },
       {
         id: '1000',
-        name: 'f230fh0g3',
+        name: 'Dufour',
         firstname: 'Bamboo Watch',
         address: {
           id: '1000',
           number: 29,
           street: 'rue Jean Jaurès',
-          city: 'Anzin',
+          city: 'Caen',
           cp: 59410
         },
         email: 'bamboo-watch.jpg'

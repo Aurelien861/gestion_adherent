@@ -5,6 +5,8 @@ import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import { FormsModule } from '@angular/forms';
+import {RippleModule} from "primeng/ripple";
+import {ButtonModule} from "primeng/button";
 
 export interface Member {
   id?: string;
@@ -35,7 +37,9 @@ export interface Address {
     TagModule,
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    RippleModule,
+    ButtonModule,
   ],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss'
@@ -51,19 +55,21 @@ export class MemberListComponent implements OnInit{
 
   ngOnInit() {
     this.columns = [
-      { field: 'name', header: 'Nom', pSortableColumn: 'name' },
-      { field: 'firstname', header: 'Prénom', pSortableColumn: 'firstname' },
-      { field: 'address', header: 'Adresse', pSortableColumn: 'address'},
+      { field: 'name', header: 'Nom', pSortableColumn: 'name', visible: true, frozen: true },
+      { field: 'firstname', header: 'Prénom', pSortableColumn: 'firstname', visible: true},
+      { field: 'address', header: 'Adresse', pSortableColumn: 'address', visible: true},
       { field: 'number', header: 'Numéro', pSortableColumn: 'number', visible: false},
       { field: 'street', header: 'Rue', pSortableColumn: 'street', visible: false},
       { field: 'city', header: 'Ville', pSortableColumn: 'city', visible: false},
-      { field: 'email', header: 'Email', pSortableColumn: 'email'}
+      { field: 'email', header: 'Email', pSortableColumn: 'email', visible: true},
+      { field: 'buttons', header: '', visible: true}
     ];
     this.membersService.getMembersDataPromise().then((members) => {
       for(let member of members){
         this.members.push({...member, city: member.address.city})
       }
       this.loading = false;
+      this.dataTable?.reset();
     });
   }
 
@@ -78,6 +84,14 @@ export class MemberListComponent implements OnInit{
 
       return (event.order * (value1 < value2 ? -1 : 1));
     });
+  }
+
+  editMember(member: Member) {
+
+  }
+
+  deleteMember(member: Member) {
+
   }
 
 }

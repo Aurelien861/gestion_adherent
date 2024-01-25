@@ -5,7 +5,6 @@
   <p-button #profileMenuButton [label]="firstName.charAt(0) + lastName.charAt(0)" [rounded]="true" styleClass="mr-2 rounded-button p-button-icon-label profile-button"
             (onClick)="onProfileMenuButtonClick()"></p-button>
 </div>
-<!--styleClass="mr-2 rounded-button p-button-icon-label"-->
 <div class="profile-menu-container">
   <div class="body">
     <div *ngIf="activeTab?.label === 'Membres'" class="content">

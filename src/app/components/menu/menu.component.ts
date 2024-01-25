@@ -9,6 +9,9 @@ import {AvatarModule} from "primeng/avatar";
 import {MenuModule} from "primeng/menu";
 import {PanelMenuModule} from "primeng/panelmenu";
 import {MemberListComponent} from "../member/member-list/member-list.component";
+import { DialogModule } from 'primeng/dialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {ConnexionComponent} from "../connection/connexion.component";
 
 @Component({
   selector: 'app-menu',
@@ -23,8 +26,10 @@ import {MemberListComponent} from "../member/member-list/member-list.component";
     AvatarModule,
     MenuModule,
     PanelMenuModule,
-    MemberListComponent
+    MemberListComponent,
+    DialogModule
   ],
+  providers: [DialogService],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
@@ -36,10 +41,13 @@ export class MenuComponent implements OnInit {
   firstName = 'Aurelien';
   lastName = 'Dufour';
   showProfileMenu = false;
+  isConnected = false;
 
   activeTab?: MenuItem;
+  ref: DynamicDialogRef | undefined;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2,
+              private dialogService: DialogService) { }
 
 
   ngOnInit() {
@@ -49,11 +57,25 @@ export class MenuComponent implements OnInit {
       { label: 'Matériel', icon: 'pi pi-fw pi-truck' }
     ];
 
-    this.profileMenuItems = [
-      {
-        label: 'Se connecter',
-      }
-    ];
+    if(this.isConnected) {
+      this.profileMenuItems = [
+        {
+          label: 'Déconnexion',
+          command: () => this.disconnect()
+        }
+      ];
+    } else {
+      this.profileMenuItems = [
+        {
+          label: 'Se connecter',
+          command: () => this.connect()
+        },
+        {
+          label: 'S\'inscrire',
+          command: () => this.signUp()
+        }
+      ];
+    }
 
     this.activeTab = this.tabs[0];
 
@@ -70,6 +92,26 @@ export class MenuComponent implements OnInit {
 
   onActiveItemChange(event: MenuItem) {
     this.activeTab = event;
+  }
+
+  connect() {
+    this.ref = this.dialogService.open(ConnexionComponent, {
+      header: 'Select a Product',
+      width: '50vw',
+      contentStyle: { overflow: 'auto' },
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
+  }
+
+  disconnect() {
+    console.log("Déconnexion")
+  }
+
+  signUp() {
+
   }
 
 }

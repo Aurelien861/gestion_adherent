@@ -19,6 +19,7 @@
 
 .body {
   flex-grow: 1;
+  z-index: 0;
 }
 
 .content {
@@ -29,8 +30,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  margin-top: 3.6rem;
-  margin-right: 1rem;
+  margin-top: 4.4rem;
+  margin-right: 2rem;
 }
 
 :host {
@@ -49,4 +50,10 @@
     right: 0;
     width: 200px !important;
   };
+  ::ng-deep .p-panelmenu-header-content {
+    border-radius: 0;
+  };
+  ::ng-deep .p-panelmenu .p-panelmenu-panel{
+    margin-bottom: 0;
+  }
 }

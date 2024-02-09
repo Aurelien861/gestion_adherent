@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, Renderer2, ElementRef, ViewChild, TemplateRef, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MenubarModule} from "primeng/menubar";
 import { MenuItem } from 'primeng/api';
@@ -8,10 +8,15 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {AvatarModule} from "primeng/avatar";
 import {MenuModule} from "primeng/menu";
 import {PanelMenuModule} from "primeng/panelmenu";
-import {MemberListComponent} from "../member/member-list/member-list.component";
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import {ConnexionComponent} from "../connection/connexion.component";
+import {ConnexionComponent} from "../connexion/connexion.component";
+import {InscriptionComponent} from "../inscription/inscription.component";
+import {AutoFocusModule} from "primeng/autofocus";
+import { Router } from '@angular/router';
+import {MenuButtonComponent} from "./menu-button/menu-button.component";
+import {EditMemberComponent} from "../member/edit-member/edit-member.component";
+import {RemoveMemberComponent} from "../member/remove-member/remove-member.component";
 
 @Component({
   selector: 'app-menu',
@@ -26,8 +31,12 @@ import {ConnexionComponent} from "../connection/connexion.component";
     AvatarModule,
     MenuModule,
     PanelMenuModule,
-    MemberListComponent,
-    DialogModule
+    DialogModule,
+    AutoFocusModule,
+    InscriptionComponent,
+    MenuButtonComponent,
+    EditMemberComponent,
+    RemoveMemberComponent,
   ],
   providers: [DialogService],
   templateUrl: './menu.component.html',
@@ -41,43 +50,36 @@ export class MenuComponent implements OnInit {
   firstName = 'Aurelien';
   lastName = 'Dufour';
   showProfileMenu = false;
-  isConnected = false;
 
   activeTab?: MenuItem;
   ref: DynamicDialogRef | undefined;
 
+
+  @Input() tabSelected!: number;
+
   constructor(private renderer: Renderer2,
-              private dialogService: DialogService) { }
+              private dialogService: DialogService,
+              private router: Router) { }
 
 
   ngOnInit() {
     this.tabs = [
-      { label: 'Membres', icon: 'pi pi-fw pi-user' },
-      { label: 'Groupes', icon: 'pi pi-fw pi-users' },
-      { label: 'Matériel', icon: 'pi pi-fw pi-truck' }
+      { label: 'Membres', icon: 'pi pi-fw pi-user', command: () => this.openMemberList() },
+      { label: 'Groupes', icon: 'pi pi-fw pi-users', command: () => this.openGroupList() },
+      { label: 'Matériel', icon: 'pi pi-fw pi-truck', command: () => this.openMaterialList() }
     ];
 
-    if(this.isConnected) {
-      this.profileMenuItems = [
-        {
-          label: 'Déconnexion',
-          command: () => this.disconnect()
-        }
-      ];
-    } else {
-      this.profileMenuItems = [
-        {
-          label: 'Se connecter',
-          command: () => this.connect()
-        },
-        {
-          label: 'S\'inscrire',
-          command: () => this.signUp()
-        }
-      ];
-    }
+    this.profileMenuItems = [
+      {
+        label: 'Mon profil',
+        command: () => this.myProfile()
+      },
+      {
+        label: 'Déconnexion',
+        command: () => this.disconnect()
+      }];
 
-    this.activeTab = this.tabs[0];
+    this.activeTab = this.tabs[this.tabSelected];
 
     this.renderer.listen('document', 'click', (event) => {
       if (!this.profileMenu?.nativeElement.contains(event.target) && !this.profileMenuButton?.nativeElement.contains(event.target)) {
@@ -94,15 +96,12 @@ export class MenuComponent implements OnInit {
     this.activeTab = event;
   }
 
-  connect() {
+  openConnexionForm() {
     this.ref = this.dialogService.open(ConnexionComponent, {
-      header: 'Select a Product',
+      header: 'Connexion',
       width: '50vw',
-      contentStyle: { overflow: 'auto' },
-      breakpoints: {
-        '960px': '75vw',
-        '640px': '90vw'
-      }
+      height: '75vh',
+      contentStyle: { overflow: 'auto' }
     });
   }
 
@@ -110,8 +109,22 @@ export class MenuComponent implements OnInit {
     console.log("Déconnexion")
   }
 
-  signUp() {
-
+  myProfile() {
+    this.router.navigateByUrl('/profile');
   }
+
+
+  openMemberList() {
+    this.router.navigateByUrl('member-list');
+  }
+
+  openGroupList() {
+    this.router.navigateByUrl('group-list');
+  }
+
+  openMaterialList() {
+    this.router.navigateByUrl('material-list');
+  }
+
 
 }

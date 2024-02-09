@@ -5,6 +5,13 @@
   padding: 10px;
 }
 
+.center-content {
+  /*display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;*/
+}
+
 .profile-menu-container {
   display: flex;
   justify-content: space-between;
@@ -32,10 +39,11 @@
   right: 0;
   margin-top: 4.4rem;
   margin-right: 2rem;
+  z-index: 1000;
 }
 
 :host {
-  ::ng-deep .profile-button {
+  ::ng-deep .custom-button {
     width: 2.5rem;
     height: 2.5rem;
     display: flex;

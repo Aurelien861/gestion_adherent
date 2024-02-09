@@ -7,25 +7,15 @@ import {TagModule} from "primeng/tag";
 import { FormsModule } from '@angular/forms';
 import {RippleModule} from "primeng/ripple";
 import {ButtonModule} from "primeng/button";
-
-export interface Member {
-  id?: string;
-  name?: string;
-  firstname?: string;
-  address?: Address;
-  city?: string;
-  email?: string;
-  [key: string]: any;
-}
-
-export interface Address {
-  id?: string;
-  number: number;
-  street: string;
-  city: string;
-  cp: number;
-  [key: string]: any;
-}
+import {StyleClassModule} from "primeng/styleclass";
+import {AutoFocusModule} from "primeng/autofocus";
+import {Member} from "../../../models/member.model";
+import {MenuComponent} from "../../menu/menu.component";
+import {RouterOutlet} from "@angular/router";
+import {DialogModule} from "primeng/dialog";
+import {InscriptionComponent} from "../../inscription/inscription.component";
+import {EditMemberComponent} from "../edit-member/edit-member.component";
+import {RemoveMemberComponent} from "../remove-member/remove-member.component";
 
 @Component({
   selector: 'app-member-list',
@@ -40,16 +30,29 @@ export interface Address {
     NgIf,
     RippleModule,
     ButtonModule,
+    StyleClassModule,
+    AutoFocusModule,
+    MenuComponent,
+    RouterOutlet,
+    DialogModule,
+    InscriptionComponent,
+    EditMemberComponent,
+    RemoveMemberComponent,
   ],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss'
 })
 export class MemberListComponent implements OnInit{
 
-  @ViewChild('dt') dataTable?: Table;
+  @ViewChild('dt') dataTable?: Table
+  @ViewChild('inscriptionForm', {read: InscriptionComponent}) inscriptionForm?: InscriptionComponent;
   members : Member[] = [];
   loading: boolean = true;
-  columns: any[] = [];
+  columns: any[] = []
+  selectedMember?: Member;
+  isEditionDialogOpen = false;
+  isDeletionDialogOpen = false;
+  isInscriptionDialogOpen = false;
 
   constructor(private membersService: MemberService) {}
 
@@ -86,12 +89,36 @@ export class MemberListComponent implements OnInit{
     });
   }
 
-  editMember(member: Member) {
-
+  openInscriptionDialog() {
+    this.isInscriptionDialogOpen = true;
   }
 
-  deleteMember(member: Member) {
+  closeInscriptionDialog() {
+    this.isInscriptionDialogOpen = false;
+  }
 
+  submitInscriptionForm() {
+    if(this.inscriptionForm?.submit()) {
+      this.isInscriptionDialogOpen = false;
+    }
+  }
+
+  openEditionDialog(member: Member) {
+    this.selectedMember = member;
+    this.isEditionDialogOpen = true;
+  }
+
+  closeEditionDialog() {
+    this.isEditionDialogOpen = false;
+  }
+
+  openDeletionDialog(member: Member) {
+    this.selectedMember = member;
+    this.isDeletionDialogOpen = true;
+  }
+
+  closeDeletionDialog() {
+    this.isDeletionDialogOpen = false;
   }
 
 }

@@ -2,13 +2,17 @@
   <div class="tab-menu-container">
     <p-tabMenu [model]="tabs" [activeItem]="activeTab" (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
   </div>
-  <p-button #profileMenuButton [label]="firstName.charAt(0) + lastName.charAt(0)" [rounded]="true" styleClass="mr-2 rounded-button p-button-icon-label profile-button"
-            (onClick)="onProfileMenuButtonClick()"></p-button>
+  <div style="margin-left: 2rem">
+    <p-button #profileMenuButton [label]="firstName.charAt(0) + lastName.charAt(0)" [rounded]="true"  styleClass="mr-2 rounded-button p-button-icon-label custom-button"
+              (onClick)="onProfileMenuButtonClick()"></p-button>
+  </div>
 </div>
-<div class="profile-menu-container">
+<!--<div class="profile-menu-container">
   <div class="body">
     <div *ngIf="activeTab?.label === 'Membres'" class="content">
-      <app-member-list></app-member-list>
+      <app-member-list (addMemberEvent)="openInscriptionForm()" (editMemberEvent)="openEditionForm($event)"
+                       (deleteMemberEvent)="openDeleteForm($event)">
+      </app-member-list>
     </div>
 
     <div *ngIf="activeTab?.label === 'Groupes'">
@@ -19,8 +23,10 @@
       <p>Le matériel</p>
     </div>
   </div>
-</div>
+</div>-->
 
 <div *ngIf="showProfileMenu" class="top-right">
   <p-panelMenu #profileMenu [model]="profileMenuItems"></p-panelMenu>
 </div>
+
+

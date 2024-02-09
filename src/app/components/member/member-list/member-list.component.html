@@ -1,3 +1,4 @@
+<app-menu [tabSelected]="0"></app-menu>
 <div class="card">
   <p-table
     #dt
@@ -28,13 +29,16 @@
             (input)="dt.filterGlobal($any($event.target).value, 'contains')"
             placeholder="Recherche par mot clé"
           />
+          <span style="margin-left: 2rem">
+            <p-button icon="pi pi-user-plus" (click)="openInscriptionDialog()" ></p-button>
+          </span>
         </span>
       </div>
     </ng-template>
 
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let col of columns" [pSortableColumn]="col.pSortableColumn" style="min-width: 14rem"
+        <th *ngFor="let col of columns" [pSortableColumn]="col.pSortableColumn"
             [style.display]="col.visible !== false ? 'table-cell' : 'none'" pFrozenColumn [frozen]="col.frozen">
           <div class="flex justify-content-between align-items-center">
             {{col.header}}
@@ -76,8 +80,10 @@
         </td>
           <td>
             <div class="button-container">
-              <p-button pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [rounded]="true" (click)="editMember(member)"></p-button>
-              <p-button  icon="pi pi-trash" class="p-button-rounded p-button-warning" [rounded]="true" (click)="deleteMember(member)"></p-button>
+              <p-button pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [rounded]="true"
+                        (click)="openEditionDialog(member)"></p-button>
+              <p-button  icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" [rounded]="true"
+                         (click)="openDeletionDialog(member)"></p-button>
             </div>
           </td>
       </tr>
@@ -90,3 +96,48 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-dialog header="Header" [(visible)]="isInscriptionDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Inscription</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-inscription #inscriptionForm></app-inscription>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeInscriptionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-user-plus" (click)="submitInscriptionForm()" label="Enregistrer" pAutoFocus type="submit"
+              [disabled]="!inscriptionForm.inscriptionForm.valid"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="isEditionDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Modification</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-edit-member [member]="selectedMember"></app-edit-member>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeEditionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-user-edit" label="Modifier" pAutoFocus type="submit"
+              [disabled]="true"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="isDeletionDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Suppression</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-remove-member [member]="selectedMember"></app-remove-member>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeDeletionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-trash" label="Supprimer" pAutoFocus type="submit"
+              [disabled]="true"></p-button>
+  </ng-template>
+</p-dialog>

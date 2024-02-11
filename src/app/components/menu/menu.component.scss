@@ -21,6 +21,7 @@
 }
 
 .tab-menu-container {
+  padding: 1rem 2rem 1rem 2rem;
   flex-grow: 1;
 }
 
@@ -52,6 +53,13 @@
     font-size: 0.8rem;
     border-radius: 50% !important;
   };
+  ::ng-deep .menu-button {
+    background-color: transparent;
+    border: none;
+  };
+  ::ng-deep .p-button-icon {
+    color: black;
+  }
   ::ng-deep .p-panelMenu {
     position: absolute;
     top: 0;

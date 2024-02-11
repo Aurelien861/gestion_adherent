@@ -1,6 +1,8 @@
 export interface Order {
-  customerName: string;
-  activeMemberName: string;
-  date: string;
-  totalPrice: number;
+  id?: string;
+  customerName?: string;
+  activeMemberName?: string;
+  date?: string;
+  totalPrice?: number;
+  [key: string]: any;
 }

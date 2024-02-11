@@ -1,4 +1,4 @@
-<app-menu [tabSelected]="0"></app-menu>
+<app-menu [tabSelected]="1"></app-menu>
 <div class="card">
   <p-table
     #dt
@@ -16,7 +16,7 @@
     (sortFunction)="onSort($event)"
     [globalFilterFields]="['name', 'firstname', 'address.number', 'address.street', 'city', 'email']"
     [scrollable]="true"
-    scrollHeight="66vh"
+    scrollHeight="62vh"
   >
 
     <ng-template pTemplate="caption">

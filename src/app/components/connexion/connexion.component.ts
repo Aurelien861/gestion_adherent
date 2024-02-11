@@ -39,7 +39,7 @@ export class ConnexionComponent {
   onLogin() {
     if(this.connexionForm && this.connexionForm.valid) {
       this.auth.login();
-      this.router.navigateByUrl('member-list');
+      this.router.navigateByUrl('material-list');
     }
   }
 

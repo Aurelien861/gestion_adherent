@@ -47,14 +47,13 @@ export class MenuComponent implements OnInit {
   @ViewChild('profileMenuButton', { read: ElementRef }) profileMenuButton?:ElementRef;
   tabs?: MenuItem[];
   profileMenuItems?: MenuItem[];
-  firstName = 'Aurelien';
-  lastName = 'Dufour';
   showProfileMenu = false;
 
   activeTab?: MenuItem;
   ref: DynamicDialogRef | undefined;
 
 
+  @Input() showTabs: boolean = true;
   @Input() tabSelected!: number;
 
   constructor(private renderer: Renderer2,
@@ -64,12 +63,15 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.tabs = [
+      { label: 'Matériel', icon: 'pi pi-fw pi-truck', command: () => this.openMaterialList() },
       { label: 'Membres', icon: 'pi pi-fw pi-user', command: () => this.openMemberList() },
-      { label: 'Groupes', icon: 'pi pi-fw pi-users', command: () => this.openGroupList() },
-      { label: 'Matériel', icon: 'pi pi-fw pi-truck', command: () => this.openMaterialList() }
     ];
 
     this.profileMenuItems = [
+      {
+        label: 'Groupes',
+        command: () => this.groups()
+      },
       {
         label: 'Mon profil',
         command: () => this.myProfile()
@@ -111,6 +113,10 @@ export class MenuComponent implements OnInit {
 
   myProfile() {
     this.router.navigateByUrl('/profile');
+  }
+
+  groups() {
+    this.router.navigateByUrl('/group-list');
   }
 
 

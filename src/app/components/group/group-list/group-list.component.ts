@@ -69,12 +69,13 @@ export class GroupListComponent  implements OnInit{
     });
   }
 
-  openInscriptionDialog() {
+  openCreationDialog() {
     this.isCreationDialogOpen = true;
   }
 
-  closeInscriptionDialog() {
+  closeCreationDialog() {
     this.isCreationDialogOpen = false;
+    this.addGroupForm?.reset();
   }
 
   submitInscriptionForm() {

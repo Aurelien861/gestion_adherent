@@ -63,7 +63,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.tabs = [
-      { label: 'Matériel', icon: 'pi pi-fw pi-truck', command: () => this.openMaterialList() },
+      { label: 'Matériel', icon: 'pi pi-fw pi-box', command: () => this.openMaterialList() },
       { label: 'Membres', icon: 'pi pi-fw pi-user', command: () => this.openMemberList() },
     ];
 

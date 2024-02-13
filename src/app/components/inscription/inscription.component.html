@@ -1,36 +1,36 @@
 <div class="card flex justify-content-center" style="margin-top: 0.5rem">
   <form [formGroup]="inscriptionForm" (ngSubmit)="submit()">
-    <span class="p-float-label margin">
+    <span class="p-float-label custom-margin">
       <input pInputText id="lastnameField" required formControlName="firstName">
       <label for="lastnameField">Nom</label>
     </span>
-    <span class="p-float-label margin">
+    <span class="p-float-label custom-margin">
       <input pInputText id="firstnameField" required formControlName="lastName">
       <label for="firstnameField">Prénom</label>
     </span>
-    <span class="p-float-label margin">
+    <span class="p-float-label custom-margin">
       <input pInputText id="emailField" required formControlName="email">
       <label for="emailField">Email</label>
     </span>
     <div formGroupName="address">
-        <span class="p-float-label margin">
+        <span class="p-float-label custom-margin">
         <input pInputText id="numberField" required formControlName="number">
         <label for="numberField">Numéro</label>
       </span>
-        <span class="p-float-label margin">
+        <span class="p-float-label custom-margin">
         <input pInputText id="streetField" required formControlName="street">
         <label for="streetField">Rue</label>
       </span>
-        <span class="p-float-label margin">
+        <span class="p-float-label custom-margin">
         <input pInputText id="cityField" required formControlName="city">
         <label for="cityField">Ville</label>
       </span>
-        <span class="p-float-label margin">
+        <span class="p-float-label custom-margin">
         <input pInputText id="cpField" required formControlName="cp">
         <label for="cpField">Code postal</label>
       </span>
     </div>
-    <span class="p-float-label margin">
+    <span class="p-float-label custom-margin">
       <p-password name="passwordField" id="passwordField" weakLabel="Faible" mediumLabel="Moyen"
                   strongLabel="Sécurisé" promptLabel="Choisissez un mot de passe" [toggleMask]="true" formControlName="password">
         <ng-template pTemplate="header"> </ng-template>

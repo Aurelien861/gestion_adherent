@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
 import {Group} from "../models/group.model";
-
+import {Injectable} from "@angular/core";
 @Injectable({ providedIn: 'root' })
 export class GroupService {
   getGroupsData(): Group[] {
@@ -8,10 +7,10 @@ export class GroupService {
       {
         id: '1',
         number: 'G1',
-        name: 'Electronique',
+        name: 'Informatique',
         city: 'Valenciennes',
         cp: 59300,
-        members: ['1000', '1001', '1002', '1003']
+        memberIds: ['1000', '1001', '1002', '1003']
       },
       {
         id: '2',
@@ -19,7 +18,7 @@ export class GroupService {
         name: 'Electrique',
         city: 'Paris',
         cp: 75000,
-        members: ['1004', '1005']
+        memberIds: ['1004', '1005']
       },
       {
         id: '3',
@@ -27,7 +26,7 @@ export class GroupService {
         name: 'Vroumvroum',
         city: 'Valenciennes',
         cp: 59300,
-        members: ['1006']
+        memberIds: ['1006']
       },
       {
         id: '4',
@@ -35,7 +34,7 @@ export class GroupService {
         name: 'ouaisouaisouais',
         city: 'Caen',
         cp: 14000,
-        members: ['1008', '1007']
+        memberIds: ['1008', '1007']
       },
       {
         id: '5',
@@ -43,7 +42,7 @@ export class GroupService {
         name: 'groupe 5',
         city: 'Lille',
         cp: 59000,
-        members: ['1009']
+        memberIds: ['1009']
       },
       {
         id: '6',
@@ -51,7 +50,7 @@ export class GroupService {
         name: 'Electronique 2',
         city: 'Valenciennes',
         cp: 59300,
-        members: ['1010']
+        memberIds: ['1010']
       },
     ];
   }

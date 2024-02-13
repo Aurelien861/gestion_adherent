@@ -95,6 +95,7 @@ export class MemberListComponent implements OnInit{
 
   closeInscriptionDialog() {
     this.isInscriptionDialogOpen = false;
+    this.inscriptionForm?.reset();
   }
 
   submitInscriptionForm() {

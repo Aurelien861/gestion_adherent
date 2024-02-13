@@ -6,6 +6,7 @@ export interface Group {
   name?: string;
   city?: string;
   cp?: number;
-  members?: string[];
+  memberIds?: string[];
+  materialIds?: string[];
   [key: string]: any;
 }

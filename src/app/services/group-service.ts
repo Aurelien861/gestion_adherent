@@ -1,7 +1,18 @@
 import {Group} from "../models/group.model";
 import {Injectable} from "@angular/core";
+import {environment} from "../../environments/environment";
+import {ApiUrls} from "../shared/api-url";
+import {HttpClient} from "@angular/common/http";
 @Injectable({ providedIn: 'root' })
 export class GroupService {
+
+  constructor(private http: HttpClient) {
+  }
+
+  getGroup(groupId: string) {
+    const getGroupUrl = environment.apiHost + ApiUrls.groups.getOne(groupId);
+    return this.http.get<any>(getGroupUrl);
+  }
   getGroupsData(): Group[] {
     return [
       {

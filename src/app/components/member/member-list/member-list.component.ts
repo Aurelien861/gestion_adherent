@@ -53,6 +53,7 @@ export class MemberListComponent implements OnInit{
   isEditionDialogOpen = false;
   isDeletionDialogOpen = false;
   isInscriptionDialogOpen = false;
+  groupId!: string | null;
 
   constructor(private membersService: MemberService) {}
 
@@ -67,13 +68,17 @@ export class MemberListComponent implements OnInit{
       { field: 'email', header: 'Email', pSortableColumn: 'email', visible: true},
       { field: 'buttons', header: '', visible: true}
     ];
-    this.membersService.getMembersDataPromise().then((members) => {
-      for(let member of members){
-        this.members.push({...member, city: member.address.city})
-      }
-      this.loading = false;
-      this.dataTable?.reset();
-    });
+    this.groupId = sessionStorage.getItem('currentGroupId');
+    if(this.groupId != null) {
+      this.membersService.getMembers(this.groupId).subscribe((members) => {
+        for(let rawMember of members){
+          const member: Member = this.createMember(rawMember);
+          this.members.push({...member, city: member.address.city})
+        }
+        this.loading = false;
+        this.dataTable?.reset();
+      });
+    }
   }
 
   onSort(event: any) {
@@ -122,4 +127,32 @@ export class MemberListComponent implements OnInit{
     this.isDeletionDialogOpen = false;
   }
 
+  createMember(rawMember: any): Member {
+    const parts = rawMember.adresse?.split(',');
+    if(parts && parts.length == 2) {
+      const numberAndStreet = parts[0].trim().split(' ');
+      if(numberAndStreet && numberAndStreet.length > 1) {
+        const numberStr = numberAndStreet[0];
+        const number = parseInt(numberStr);
+        const street = parts[0].replace(numberStr, '').trim();
+        const cpAndCity = parts[1].trim().split(' ');
+        if(cpAndCity && cpAndCity.length == 2){
+          const cp = parseInt(cpAndCity[0]);
+          const city = cpAndCity[1];
+          return {
+            name: rawMember.nom,
+            firstname: rawMember.prenom,
+            address: {
+              number: number,
+              street: street,
+              city: city,
+              cp: cp
+            },
+            email: rawMember.email
+          }
+        }
+      }
+    }
+    return {address:{}};
+  }
 }

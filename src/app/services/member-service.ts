@@ -1,144 +1,29 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from "../../environments/environment";
+import {ApiUrls} from "../shared/api-url";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class MemberService {
-  getMembersData() {
-    return [
-      {
-        id: '1000',
-        name: 'f230fh0g3',
-        firstname: 'Aurélien Watch',
-        address: {
-          number: 27,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'a'
-      },
-      {
-        id: '1001',
-        name: 'f230fh0g3',
-        firstname: 'Eloise Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Valenciennes',
-          cp: 59410
-        },
-        email: 'b'
-      },
-      {
-        id: '1002',
-        name: 'f230fh0g3',
-        firstname: 'Mathéo Watch',
-        address: {
-          number: 28,
-          street: 'rue Jean Jaurès',
-          city: 'Lille',
-          cp: 59410
-        },
-        email: 'z'
-      },
-      {
-        id: '1003',
-        name: 'Dufour',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Caen',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1004',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1005',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1006',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1007',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1008',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1009',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      },
-      {
-        id: '1010',
-        name: 'f230fh0g3',
-        firstname: 'Bamboo Watch',
-        address: {
-          number: 29,
-          street: 'rue Jean Jaurès',
-          city: 'Anzin',
-          cp: 59410
-        },
-        email: 'bamboo-watch.jpg'
-      }
-    ];
+
+  constructor(private http: HttpClient) { }
+
+  getMembers(groupId: string): Observable<any> {
+    const getAllMembersUrl = environment.apiHost + ApiUrls.members.getAll;
+    let params = new HttpParams().set('groupId', groupId);
+    return this.http.get<any>(getAllMembersUrl, {params: params});
   }
-  getMembersDataPromise() {
-    return Promise.resolve(this.getMembersData().slice(0, 200));
+
+  login(email: string, password: string): Observable<any> {
+    const loginUrl = environment.apiHost + ApiUrls.members.login;
+    const body = JSON.stringify({email: email, password: password});
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(loginUrl, body, {headers: headers});
   }
-};
+
+}

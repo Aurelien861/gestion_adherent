@@ -11,10 +11,10 @@ class PermissionService {
               private auth: AuthService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.auth.getToken()) {
+    if (this.auth.getToken() != null) {
       return true;
     } else {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('auth/login');
       return false;
     }
   }

@@ -27,8 +27,8 @@ import {regexValidator} from "../../services/regexValidator.service";
 export class ConnexionComponent {
 
   connexionForm = this.fb.group({
-    email: ['aurelien.dufour257@gmail.com', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
-    password: ['mdp', Validators.required]
+    email: ['jean.dupont@example.com', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
+    password: ['pass1234', Validators.required]
   });
 
   constructor(private auth: AuthService,
@@ -38,8 +38,15 @@ export class ConnexionComponent {
 
   onLogin() {
     if(this.connexionForm && this.connexionForm.valid) {
-      this.auth.login();
-      this.router.navigateByUrl('material-list');
+      const emailValue = this.connexionForm.get('email')?.value;
+      const passwordValue = this.connexionForm.get('password')?.value;
+      if(emailValue && passwordValue) {
+        this.auth.login(emailValue, passwordValue).then(response => {
+          if(response) {
+            this.router.navigateByUrl('material-list');
+          }
+        });
+      }
     }
   }
 

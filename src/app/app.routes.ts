@@ -6,6 +6,7 @@ import {MemberListComponent} from "./components/member/member-list/member-list.c
 import {GroupListComponent} from "./components/group/group-list/group-list.component";
 import {MaterialListComponent} from "./components/material/material-list/material-list.component";
 import {AuthGuard} from "./services/permission.service";
+import {InscriptionPageComponent} from "./components/inscription/inscription-page/inscription-page.component";
 
 export const routes: Routes = [
   {path: '', component: MaterialListComponent, canActivate: [AuthGuard]},
@@ -13,7 +14,8 @@ export const routes: Routes = [
   {path: 'group-list', component: GroupListComponent, canActivate: [AuthGuard]},
   {path: 'material-list', component: MaterialListComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard]},
-  {path: 'auth/login', component: ConnexionComponent}
+  {path: 'auth/login', component: ConnexionComponent},
+  {path: 'sign-in', component: InscriptionPageComponent},
 ];
 
 /*export const routes: Routes = [

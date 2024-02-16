@@ -1,9 +1,22 @@
 import {Material} from "../models/material.model";
 import {Injectable} from "@angular/core";
+import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
+import {ApiUrls} from "../shared/api-url";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({ providedIn: 'root' })
 
 export class MaterialService {
+
+  constructor(private http: HttpClient) {
+  }
+
+  getMaterials(groupId: string): Observable<any> {
+    const getAllGroupsUrl = environment.apiHost + ApiUrls.material.getAll;
+    let params = new HttpParams().set('groupId', groupId);
+    return this.http.get<any>(getAllGroupsUrl, {params: params});
+  }
   getMaterialsData(): Material[] {
     return [
       {

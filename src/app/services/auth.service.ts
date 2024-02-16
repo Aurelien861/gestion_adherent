@@ -11,7 +11,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((resolve) => {
       this.memberService.login(email, password).subscribe(response => {
         if (response.membreId !== 'null') {
           sessionStorage.setItem('currentUserId', response.membreId);
@@ -19,13 +19,18 @@ export class AuthService {
           sessionStorage.setItem('currentMemberType', response.typeMembre);
           resolve(true);
         } else {
-          reject(false);
+          resolve(false);
         }
       }, error => {
-        console.error('Error:', error);
-        reject(false);
+        resolve(false);
       });
     });
+  }
+
+  logOut() {
+    sessionStorage.removeItem('currentUserId');
+    sessionStorage.removeItem('currentGroupId');
+    sessionStorage.removeItem('currentMemberType');
   }
 
   getToken(): string | null {

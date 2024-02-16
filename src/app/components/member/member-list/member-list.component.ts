@@ -13,7 +13,7 @@ import {Member} from "../../../models/member.model";
 import {MenuComponent} from "../../menu/menu.component";
 import {RouterOutlet} from "@angular/router";
 import {DialogModule} from "primeng/dialog";
-import {InscriptionComponent} from "../../inscription/inscription.component";
+import {InscriptionFormComponent} from "../../inscription/inscription-form/inscription-form.component";
 import {EditMemberComponent} from "../edit-member/edit-member.component";
 import {RemoveMemberComponent} from "../remove-member/remove-member.component";
 
@@ -35,7 +35,7 @@ import {RemoveMemberComponent} from "../remove-member/remove-member.component";
     MenuComponent,
     RouterOutlet,
     DialogModule,
-    InscriptionComponent,
+    InscriptionFormComponent,
     EditMemberComponent,
     RemoveMemberComponent,
   ],
@@ -45,7 +45,7 @@ import {RemoveMemberComponent} from "../remove-member/remove-member.component";
 export class MemberListComponent implements OnInit{
 
   @ViewChild('dt') dataTable?: Table
-  @ViewChild('inscriptionForm', {read: InscriptionComponent}) inscriptionForm?: InscriptionComponent;
+  @ViewChild('inscriptionForm', {read: InscriptionFormComponent}) inscriptionForm?: InscriptionFormComponent;
   members : Member[] = [];
   loading: boolean = true;
   columns: any[] = []
@@ -53,7 +53,6 @@ export class MemberListComponent implements OnInit{
   isEditionDialogOpen = false;
   isDeletionDialogOpen = false;
   isInscriptionDialogOpen = false;
-  groupId!: string | null;
 
   constructor(private membersService: MemberService) {}
 
@@ -68,11 +67,11 @@ export class MemberListComponent implements OnInit{
       { field: 'email', header: 'Email', pSortableColumn: 'email', visible: true},
       { field: 'buttons', header: '', visible: true}
     ];
-    this.groupId = sessionStorage.getItem('currentGroupId');
-    if(this.groupId != null) {
-      this.membersService.getMembers(this.groupId).subscribe((members) => {
+    const groupId = sessionStorage.getItem('currentGroupId');
+    if(groupId != null) {
+      this.membersService.getMembers(groupId).subscribe((members) => {
         for(let rawMember of members){
-          const member: Member = this.createMember(rawMember);
+          const member: Member = this.parseMember(rawMember);
           this.members.push({...member, city: member.address.city})
         }
         this.loading = false;
@@ -127,7 +126,7 @@ export class MemberListComponent implements OnInit{
     this.isDeletionDialogOpen = false;
   }
 
-  createMember(rawMember: any): Member {
+  parseMember(rawMember: any): Member {
     const parts = rawMember.adresse?.split(',');
     if(parts && parts.length == 2) {
       const numberAndStreet = parts[0].trim().split(' ');

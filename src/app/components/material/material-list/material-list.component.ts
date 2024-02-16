@@ -4,13 +4,12 @@ import {AutoFocusModule} from "primeng/autofocus";
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {EditMemberComponent} from "../../member/edit-member/edit-member.component";
-import {InscriptionComponent} from "../../inscription/inscription.component";
+import {InscriptionFormComponent} from "../../inscription/inscription-form/inscription-form.component";
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {RemoveMemberComponent} from "../../member/remove-member/remove-member.component";
 import {RippleModule} from "primeng/ripple";
 import {SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
-import {Member} from "../../../models/member.model";
 import {Material} from "../../../models/material.model";
 import {MaterialService} from "../../../services/material.service";
 import {BadgeModule} from "primeng/badge";
@@ -28,7 +27,7 @@ import {OrderMaterialComponent} from "../order-material/order-material.component
     ButtonModule,
     DialogModule,
     EditMemberComponent,
-    InscriptionComponent,
+    InscriptionFormComponent,
     NgForOf,
     NgIf,
     RemoveMemberComponent,
@@ -73,11 +72,21 @@ export class MaterialListComponent implements OnInit{
       { field: 'price', header: 'Prix', pSortableColumn: 'price'},
       { field: 'buttons', header: '', visible: true}
     ];
-    this.materialService.getMaterialsDataPromise().then((materials) => {
+    /*this.materialService.getMaterialsDataPromise().then((materials) => {
       this.materials = materials;
       this.loading = false;
       this.dataTable?.reset();
-    });
+    });*/
+    const groupId = sessionStorage.getItem('currentGroupId');
+    if(groupId != null) {
+      this.materialService.getMaterials(groupId).subscribe((materials) => {
+        for(let rawMaterial of materials){
+          this.materials.push(this.parseMaterial(rawMaterial));
+        }
+        this.loading = false;
+        this.dataTable?.reset();
+      });
+    }
   }
 
   openShopDialog() {
@@ -136,6 +145,16 @@ export class MaterialListComponent implements OnInit{
       }
     });
     return totalPrice;
+  }
+;
+  parseMaterial(rawMaterial: any): Material {
+    return {
+      serial: rawMaterial.numeroDeSerie,
+      brand: rawMaterial.marque,
+      type: rawMaterial.type,
+      model: rawMaterial.modele,
+      price: rawMaterial.prix
+    }
   }
 
 }

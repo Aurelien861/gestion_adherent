@@ -2,7 +2,8 @@ import {Group} from "../models/group.model";
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
 @Injectable({ providedIn: 'root' })
 export class GroupService {
 
@@ -13,6 +14,22 @@ export class GroupService {
     const getGroupUrl = environment.apiHost + ApiUrls.groups.getOne(groupId);
     return this.http.get<any>(getGroupUrl);
   }
+
+  getGroups(): Observable<any> {
+    const getAllGroupsUrl = environment.apiHost + ApiUrls.groups.getAll;
+    return this.http.get<any>(getAllGroupsUrl);
+  }
+
+  parseGroup(rawGroup: any) : Group {
+    return {
+      id: rawGroup.id,
+      number: rawGroup.numero,
+      name: rawGroup.nomGroupe,
+      city: rawGroup.ville,
+      cp: rawGroup.codePostal
+    };
+  }
+
   getGroupsData(): Group[] {
     return [
       {

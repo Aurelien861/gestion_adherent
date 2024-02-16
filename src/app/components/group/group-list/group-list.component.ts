@@ -4,7 +4,7 @@ import {AutoFocusModule} from "primeng/autofocus";
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {EditMemberComponent} from "../../member/edit-member/edit-member.component";
-import {InscriptionComponent} from "../../inscription/inscription.component";
+import {InscriptionFormComponent} from "../../inscription/inscription-form/inscription-form.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {RemoveMemberComponent} from "../../member/remove-member/remove-member.component";
 import {RippleModule} from "primeng/ripple";
@@ -15,6 +15,7 @@ import {GroupService} from "../../../services/group-service";
 import {AddGroupComponent} from "../add-group/add-group.component";
 import {RemoveGroupComponent} from "../remove-group/remove-group.component";
 import {EditGroupComponent} from "../edit-group/edit-group.component";
+import {Member} from "../../../models/member.model";
 
 @Component({
   selector: 'app-group-list',
@@ -25,7 +26,7 @@ import {EditGroupComponent} from "../edit-group/edit-group.component";
     ButtonModule,
     DialogModule,
     EditMemberComponent,
-    InscriptionComponent,
+    InscriptionFormComponent,
     NgForOf,
     NgIf,
     RemoveMemberComponent,
@@ -67,6 +68,16 @@ export class GroupListComponent  implements OnInit{
       this.loading = false;
       this.dataTable?.reset();
     });
+    /*const groupId = sessionStorage.getItem('currentGroupId');
+    if(groupId != null) {
+      this.groupService.getGroups(groupId).subscribe((groups) => {
+        for(let rawGroup of groups){
+          this.groups.push(this.parseGroup(rawGroup));
+        }
+        this.loading = false;
+        this.dataTable?.reset();
+      });
+    }*/
   }
 
   openCreationDialog() {

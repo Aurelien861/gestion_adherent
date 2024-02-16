@@ -11,12 +11,13 @@ import {PanelMenuModule} from "primeng/panelmenu";
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import {ConnexionComponent} from "../connexion/connexion.component";
-import {InscriptionComponent} from "../inscription/inscription.component";
+import {InscriptionFormComponent} from "../inscription/inscription-form/inscription-form.component";
 import {AutoFocusModule} from "primeng/autofocus";
 import { Router } from '@angular/router';
 import {MenuButtonComponent} from "./menu-button/menu-button.component";
 import {EditMemberComponent} from "../member/edit-member/edit-member.component";
 import {RemoveMemberComponent} from "../member/remove-member/remove-member.component";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-menu',
@@ -33,7 +34,7 @@ import {RemoveMemberComponent} from "../member/remove-member/remove-member.compo
     PanelMenuModule,
     DialogModule,
     AutoFocusModule,
-    InscriptionComponent,
+    InscriptionFormComponent,
     MenuButtonComponent,
     EditMemberComponent,
     RemoveMemberComponent,
@@ -58,7 +59,8 @@ export class MenuComponent implements OnInit {
 
   constructor(private renderer: Renderer2,
               private dialogService: DialogService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
 
   ngOnInit() {
@@ -108,7 +110,8 @@ export class MenuComponent implements OnInit {
   }
 
   disconnect() {
-    console.log("Déconnexion")
+    this.authService.logOut();
+    this.router.navigateByUrl('/auth/login');
   }
 
   myProfile() {

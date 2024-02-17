@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MenuComponent} from "../../menu/menu.component";
 import {AutoFocusModule} from "primeng/autofocus";
 import {ButtonModule} from "primeng/button";
@@ -8,7 +8,7 @@ import {InscriptionFormComponent} from "../../inscription/inscription-form/inscr
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {RemoveMemberComponent} from "../../member/remove-member/remove-member.component";
 import {RippleModule} from "primeng/ripple";
-import {SharedModule} from "primeng/api";
+import {MessageService, SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
 import {Material} from "../../../models/material.model";
 import {MaterialService} from "../../../services/material.service";
@@ -17,6 +17,8 @@ import {EditMaterialComponent} from "../edit-material/edit-material.component";
 import {RemoveMaterialComponent} from "../remove-material/remove-material.component";
 import {AddMaterialComponent} from "../add-material/add-material.component";
 import {OrderMaterialComponent} from "../order-material/order-material.component";
+import { ToastModule } from 'primeng/toast';
+
 
 @Component({
   selector: 'app-material-list',
@@ -39,8 +41,10 @@ import {OrderMaterialComponent} from "../order-material/order-material.component
     EditMaterialComponent,
     RemoveMaterialComponent,
     AddMaterialComponent,
-    OrderMaterialComponent
+    OrderMaterialComponent,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './material-list.component.html',
   styleUrl: './material-list.component.scss'
 })
@@ -61,7 +65,8 @@ export class MaterialListComponent implements OnInit{
 
   groupId : number = 1;
 
-  constructor(private materialService: MaterialService) {}
+  constructor(private materialService: MaterialService,
+              private messageService: MessageService) {}
 
   ngOnInit() {
     this.columns = [
@@ -103,6 +108,11 @@ export class MaterialListComponent implements OnInit{
   submitOrder() {
     this.isShopDialogOpen = false;
     this.orderMaterialComponent?.submitOrder();
+  }
+
+  validOrder() {
+    this.loadMaterial();
+    this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Ta commande est passée' });
   }
 
   openAddDialog() {

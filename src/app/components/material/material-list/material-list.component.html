@@ -101,7 +101,7 @@
     <h3>Mon panier</h3>
   </ng-template>
   <div class="center-content">
-    <app-order-material #orderMaterialComponent [products]="selectedMaterialToOrder" [totalPrice]="computeTotalPrice()"></app-order-material>
+    <app-order-material #orderMaterialComponent (eventOrdered)="loadMaterial()" [products]="selectedMaterialToOrder" [totalPrice]="computeTotalPrice()"></app-order-material>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeShopDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>

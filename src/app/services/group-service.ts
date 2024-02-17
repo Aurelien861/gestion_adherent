@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Member} from "../models/member.model";
 @Injectable({ providedIn: 'root' })
 export class GroupService {
 

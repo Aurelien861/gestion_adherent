@@ -3,19 +3,40 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {UtilsService} from "./utils-service";
+import {Order} from "../models/order.model";
 
 @Injectable({ providedIn: 'root' })
 
 export class MaterialService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private utils: UtilsService) {
   }
 
   getMaterials(groupId: string): Observable<any> {
     const getAllGroupsUrl = environment.apiHost + ApiUrls.material.getAll;
     let params = new HttpParams().set('groupId', groupId);
     return this.http.get<any>(getAllGroupsUrl, {params: params});
+  }
+
+  orderMaterial(order: Order): Observable<any> {
+    const orderUrl = environment.apiHost + ApiUrls.command.create;
+    const body = JSON.stringify({
+      id: this.utils.generateId(12),
+      nomMembreClient: order.clientName,
+      nomMembreActif: order.activeName,
+      date: order.date,
+      prixTotal: order.totalPrice,
+      listeIdMateriaux: order.materialIds,
+      idMembreClient: order.clientId,
+      idMembreActif: order.activeId,
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(orderUrl, body, {headers: headers});
   }
   getMaterialsData(): Material[] {
     return [

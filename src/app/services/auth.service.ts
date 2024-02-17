@@ -17,6 +17,7 @@ export class AuthService {
           sessionStorage.setItem('currentUserId', response.membreId);
           sessionStorage.setItem('currentGroupId', response.groupeId);
           sessionStorage.setItem('currentMemberType', response.typeMembre);
+          sessionStorage.setItem('currentMemberName', response.membreName);
           resolve(true);
         } else {
           resolve(false);
@@ -31,6 +32,7 @@ export class AuthService {
     sessionStorage.removeItem('currentUserId');
     sessionStorage.removeItem('currentGroupId');
     sessionStorage.removeItem('currentMemberType');
+    sessionStorage.removeItem('currentMemberName');
   }
 
   getToken(): string | null {

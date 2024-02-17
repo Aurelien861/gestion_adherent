@@ -47,17 +47,17 @@ export class InscriptionFormComponent implements OnInit{
   missGroup = false;
 
   inscriptionForm = this.fb.group({
-    firstName: ['test', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    lastName: ['test', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    email: ['test@test.fr', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
+    firstName: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+    lastName: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+    email: ['', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
     address: this.fb.group({
-      number: [12, Validators.required, regexValidator(/^\d{1,4}[A-Za-z]{0,3}$/)],
-      street: ['test', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-      city: ['test', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-      cp: [56789, Validators.required, regexValidator(/^\d{5}$/)]
+      number: [null, Validators.required, regexValidator(/^\d{1,4}[A-Za-z]{0,3}$/)],
+      street: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+      city: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+      cp: [null, Validators.required, regexValidator(/^\d{5}$/)]
     }),
     group:['', Validators.required],
-    password: ['123456789Ab', Validators.required, [regexValidator(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/)]],
+    password: ['', Validators.required, [regexValidator(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/)]],
     memberType: new FormControl('Client')
   });
 
@@ -120,8 +120,6 @@ export class InscriptionFormComponent implements OnInit{
           const password = this.inscriptionForm?.get('password')?.value;
           if(email && password) {
             this.auth.login(email, password).then(response => {
-              console.log(email)
-              console.log(password)
               if(response) {
                 this.router.navigateByUrl('material-list');
               }

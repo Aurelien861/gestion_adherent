@@ -72,17 +72,18 @@ export class MaterialListComponent implements OnInit{
       { field: 'price', header: 'Prix', pSortableColumn: 'price'},
       { field: 'buttons', header: '', visible: true}
     ];
-    /*this.materialService.getMaterialsDataPromise().then((materials) => {
-      this.materials = materials;
-      this.loading = false;
-      this.dataTable?.reset();
-    });*/
+    this.loadMaterial();
+  }
+
+  loadMaterial() {
     const groupId = sessionStorage.getItem('currentGroupId');
     if(groupId != null) {
+      this.materials = [];
       this.materialService.getMaterials(groupId).subscribe((materials) => {
         for(let rawMaterial of materials){
           this.materials.push(this.parseMaterial(rawMaterial));
         }
+        this.selectedMaterialToOrder = [];
         this.loading = false;
         this.dataTable?.reset();
       });
@@ -149,6 +150,7 @@ export class MaterialListComponent implements OnInit{
 ;
   parseMaterial(rawMaterial: any): Material {
     return {
+      id: rawMaterial.id,
       serial: rawMaterial.numeroDeSerie,
       brand: rawMaterial.marque,
       type: rawMaterial.type,

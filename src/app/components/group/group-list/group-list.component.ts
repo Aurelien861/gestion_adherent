@@ -8,7 +8,7 @@ import {InscriptionFormComponent} from "../../inscription/inscription-form/inscr
 import {NgForOf, NgIf} from "@angular/common";
 import {RemoveMemberComponent} from "../../member/remove-member/remove-member.component";
 import {RippleModule} from "primeng/ripple";
-import {SharedModule} from "primeng/api";
+import {MessageService, SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
 import {Group} from "../../../models/group.model";
 import {GroupService} from "../../../services/group-service";
@@ -16,6 +16,7 @@ import {AddGroupComponent} from "../add-group/add-group.component";
 import {RemoveGroupComponent} from "../remove-group/remove-group.component";
 import {EditGroupComponent} from "../edit-group/edit-group.component";
 import {Member} from "../../../models/member.model";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-group-list',
@@ -35,8 +36,10 @@ import {Member} from "../../../models/member.model";
     TableModule,
     AddGroupComponent,
     RemoveGroupComponent,
-    EditGroupComponent
+    EditGroupComponent,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './group-list.component.html',
   styleUrl: './group-list.component.scss'
 })
@@ -53,7 +56,8 @@ export class GroupListComponent  implements OnInit{
   isDeletionDialogOpen = false;
   isCreationDialogOpen = false;
 
-  constructor(private groupService: GroupService) {}
+  constructor(private groupService: GroupService,
+              private messageService: MessageService) {}
 
   ngOnInit() {
     this.columns = [
@@ -63,21 +67,24 @@ export class GroupListComponent  implements OnInit{
       { field: 'cp', header: 'Code postal', pSortableColumn: 'cp'},
       { field: 'buttons', header: '', visible: true}
     ];
-    this.groupService.getGroupsDataPromise().then((groups) => {
-      this.groups = groups;
+
+    this.loadData()
+  }
+
+  loadData() {
+    this.groups = [];
+    this.groupService.getGroups().subscribe((groups) => {
+      for(let rawGroup of groups){
+        this.groups.push(this.groupService.parseGroup(rawGroup));
+      }
       this.loading = false;
       this.dataTable?.reset();
     });
-    /*const groupId = sessionStorage.getItem('currentGroupId');
-    if(groupId != null) {
-      this.groupService.getGroups(groupId).subscribe((groups) => {
-        for(let rawGroup of groups){
-          this.groups.push(this.parseGroup(rawGroup));
-        }
-        this.loading = false;
-        this.dataTable?.reset();
-      });
-    }*/
+  }
+
+  validGroupCreation(groupName: string) {
+    this.loadData();
+    this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Le groupe ' + groupName + ' a bien été créé' });
   }
 
   openCreationDialog() {

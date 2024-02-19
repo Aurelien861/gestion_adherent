@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PasswordModule} from "primeng/password";
 import {ButtonModule} from "primeng/button";
 import {TooltipModule} from "primeng/tooltip";
@@ -19,6 +19,8 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {NgIf} from "@angular/common";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
+import {Material} from "../../../models/material.model";
+import {Member} from "../../../models/member.model";
 
 
 
@@ -42,6 +44,9 @@ import {Router} from "@angular/router";
 })
 export class InscriptionFormComponent implements OnInit{
 
+  @Output() eventUserCreated = new EventEmitter<Member>();
+
+  userGroupId!: string | null;
   groups : Group[] = [];
   groupNames!: string[];
   missGroup = false;
@@ -74,6 +79,10 @@ export class InscriptionFormComponent implements OnInit{
               private router: Router) { };
 
   public ngOnInit() {
+    this.userGroupId = sessionStorage.getItem('currentGroupId');
+    if(this.userGroupId != null) {
+      this.inscriptionForm.patchValue({group: 'Valide'});
+    }
     this.groupService.getGroups().subscribe(groups => {
       for(let group of groups){
         this.groups.push(this.groupService.parseGroup(group));
@@ -98,7 +107,11 @@ export class InscriptionFormComponent implements OnInit{
       const groupName = this.inscriptionForm.get('group')?.value;
       let groupId = undefined;
       if(groupName) {
-        groupId = this.groups.find((group) => group.name === groupName)?.id;
+        if(this.userGroupId) {
+          groupId = this.userGroupId;
+        } else {
+          groupId = this.groups.find((group) => group.name === groupName)?.id;
+        }
       }
       if(email && number && street && city && cp && city && firstname && password && name && groupId && memberType) {
         this.memberService.signIn({
@@ -116,13 +129,16 @@ export class InscriptionFormComponent implements OnInit{
           groupId: groupId,
           memberType: memberType
         }).subscribe( member => {
-          const email = this.inscriptionForm.get('email')?.value;
-          const password = this.inscriptionForm?.get('password')?.value;
-          if(email && password) {
-            this.auth.login(email, password).then(response => {
-              if(response) {
-                this.router.navigateByUrl('material-list');
-              }
+          const email = member.email;
+          const password = member.password;
+          const lastName = member.nom;
+          const firstName = member.prenom;
+          if(email && password && lastName && firstName){
+            this.eventUserCreated.emit({
+              email: email,
+              password: password,
+              name: lastName,
+              firstname: firstname
             });
           }
           }

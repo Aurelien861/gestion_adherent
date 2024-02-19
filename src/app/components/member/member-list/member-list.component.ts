@@ -16,6 +16,8 @@ import {DialogModule} from "primeng/dialog";
 import {InscriptionFormComponent} from "../../inscription/inscription-form/inscription-form.component";
 import {EditMemberComponent} from "../edit-member/edit-member.component";
 import {RemoveMemberComponent} from "../remove-member/remove-member.component";
+import {MessageService} from "primeng/api";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-member-list',
@@ -38,7 +40,9 @@ import {RemoveMemberComponent} from "../remove-member/remove-member.component";
     InscriptionFormComponent,
     EditMemberComponent,
     RemoveMemberComponent,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss'
 })
@@ -54,7 +58,8 @@ export class MemberListComponent implements OnInit{
   isDeletionDialogOpen = false;
   isInscriptionDialogOpen = false;
 
-  constructor(private memberService: MemberService) {}
+  constructor(private memberService: MemberService,
+              private messageService: MessageService) {}
 
   ngOnInit() {
     this.columns = [
@@ -67,12 +72,16 @@ export class MemberListComponent implements OnInit{
       { field: 'email', header: 'Email', pSortableColumn: 'email', visible: true},
       { field: 'buttons', header: '', visible: true}
     ];
+    this.loadMembers();
+  }
+
+  loadMembers() {
     const groupId = sessionStorage.getItem('currentGroupId');
     if(groupId != null) {
       this.memberService.getMembers(groupId).subscribe((members) => {
         for(let rawMember of members){
           const member: Member = this.memberService.parseMember(rawMember);
-          this.members.push({...member, city: member.address.city})
+          this.members.push({...member, city: member.address?.city})
         }
         this.loading = false;
         this.dataTable?.reset();
@@ -91,6 +100,12 @@ export class MemberListComponent implements OnInit{
 
       return (event.order * (value1 < value2 ? -1 : 1));
     });
+  }
+
+  validMemberInscription(member: Member) {
+    this.loadMembers();
+    const message = member.firstname + ' ' + member.name + ' a bien été ajouté';
+    this.messageService.add({ severity: 'success', summary: 'Succès', detail: message });
   }
 
   openInscriptionDialog() {

@@ -1,5 +1,6 @@
 <app-menu [tabSelected]="0" [showTabs]="false" ></app-menu>
 <div class="card">
+  <p-toast></p-toast>
   <p-table
     #dt
     [value]="groups"
@@ -88,7 +89,7 @@
     <h3>Création de groupe</h3>
   </ng-template>
   <div class="center-content">
-    <app-add-group #addGroupForm></app-add-group>
+    <app-add-group #addGroupForm (eventGroupAdded)="validGroupCreation($event)"></app-add-group>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeCreationDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>

@@ -6,7 +6,11 @@ import {Address} from "../models/address.model";
 })
 export class AddressService {
 
-  addressToString(address: Address): string {
-    return address.number + ' ' + address.street + ', ' + address.cp + ' ' + address.city;
+  addressToString(address: Address | undefined): string {
+    if(address) {
+      return address.number + ' ' + address.street + ', ' + address.cp + ' ' + address.city;
+    } else {
+      return '';
+    }
   }
 }

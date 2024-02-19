@@ -2,13 +2,33 @@ import {Group} from "../models/group.model";
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Member} from "../models/member.model";
+import {Material} from "../models/material.model";
+import {UtilsService} from "./utils-service";
 @Injectable({ providedIn: 'root' })
 export class GroupService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private utils: UtilsService) {
+  }
+
+  addGroup(group: Group) : Observable<any> {
+    const addGroupUrl = environment.apiHost + ApiUrls.groups.create;
+    const body = JSON.stringify({
+      id: this.utils.generateId(12),
+      numero: 'GXX',
+      nomGroupe: group.name,
+      ville: group.city,
+      codePostal: group.cp,
+      listeIdMembres: [],
+      listeIdMateriaux: []
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(addGroupUrl, body, {headers: headers});
   }
 
   getGroup(groupId: string) {

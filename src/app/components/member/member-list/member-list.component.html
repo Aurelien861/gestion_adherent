@@ -1,5 +1,6 @@
 <app-menu [tabSelected]="1"></app-menu>
 <div class="card">
+  <p-toast></p-toast>
   <p-table
     #dt
     [value]="members"
@@ -103,7 +104,7 @@
     <h3>Inscription</h3>
   </ng-template>
   <div class="center-content">
-    <app-inscription #inscriptionForm></app-inscription>
+    <app-inscription #inscriptionForm (eventUserCreated)="validMemberInscription($event)"></app-inscription>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeInscriptionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>

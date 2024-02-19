@@ -15,11 +15,11 @@
       <input pInputText id="emailField" style="width: 22rem" required formControlName="email">
       <label for="emailField">Email</label>
     </span>
-    <span class="p-float-label custom-margin">
+    <span class="p-float-label custom-margin" *ngIf="userGroupId == null">
     <p-dropdown [required]="true" id="groupField" formControlName="group" [options]="groupNames" [editable]="true" ></p-dropdown>
       <label for="groupField">Groupe</label>
     </span>
-    <div *ngIf="missGroup" class="text-danger">
+    <div *ngIf="missGroup && userGroupId == null" class="text-danger">
       Sélectionne un groupe
     </div>
     <div formGroupName="address">

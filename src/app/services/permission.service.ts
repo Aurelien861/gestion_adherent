@@ -20,7 +20,7 @@ class PermissionService {
   }
 
   canActivateActive(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const activeMember = sessionStorage.getItem('currentMemberActive') === 'Actif';
+    const activeMember = sessionStorage.getItem('currentMemberType') === 'Actif';
     if (this.auth.getToken() != null && activeMember) {
       return true;
     } else {

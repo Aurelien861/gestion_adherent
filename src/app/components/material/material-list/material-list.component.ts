@@ -62,6 +62,7 @@ export class MaterialListComponent implements OnInit{
   isDeletionDialogOpen = false;
   isShopDialogOpen = false;
   isAddDialogOpen = false;
+  activeMember = false;
 
   groupId : number = 1;
 
@@ -69,14 +70,25 @@ export class MaterialListComponent implements OnInit{
               private messageService: MessageService) {}
 
   ngOnInit() {
-    this.columns = [
-      { field: 'serial', header: 'Numéro de série', pSortableColumn: 'serial', frozen: true },
-      { field: 'brand', header: 'Marque', pSortableColumn: 'brand'},
-      { field: 'model', header: 'Modèle', pSortableColumn: 'model'},
-      { field: 'type', header: 'Type', pSortableColumn: 'type'},
-      { field: 'price', header: 'Prix', pSortableColumn: 'price'},
-      { field: 'buttons', header: '', visible: true}
-    ];
+    this.activeMember = sessionStorage.getItem('currentMemberType') === 'Actif';
+    if(this.activeMember) {
+      this.columns = [
+        { field: 'serial', header: 'Numéro de série', pSortableColumn: 'serial', frozen: true },
+        { field: 'brand', header: 'Marque', pSortableColumn: 'brand'},
+        { field: 'model', header: 'Modèle', pSortableColumn: 'model'},
+        { field: 'type', header: 'Type', pSortableColumn: 'type'},
+        { field: 'price', header: 'Prix', pSortableColumn: 'price'},
+        { field: 'buttons', header: '', visible: true}
+      ];
+    } else {
+      this.columns = [
+        { field: 'serial', header: 'Numéro de série', pSortableColumn: 'serial', frozen: true },
+        { field: 'brand', header: 'Marque', pSortableColumn: 'brand'},
+        { field: 'model', header: 'Modèle', pSortableColumn: 'model'},
+        { field: 'type', header: 'Type', pSortableColumn: 'type'},
+        { field: 'price', header: 'Prix', pSortableColumn: 'price'},
+      ];
+    }
     this.loadMaterial();
   }
 

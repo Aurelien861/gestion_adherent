@@ -19,8 +19,22 @@ class PermissionService {
     }
   }
 
+  canActivateActive(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const activeMember = sessionStorage.getItem('currentMemberActive') === 'Actif';
+    if (this.auth.getToken() != null && activeMember) {
+      return true;
+    } else {
+      this.router.navigateByUrl('material-list');
+      return false;
+    }
+  }
+
 }
 
 export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   return inject(PermissionService).canActivate(next, state);
+}
+
+export const AuthGuardActive: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
+  return inject(PermissionService).canActivateActive(next, state);
 }

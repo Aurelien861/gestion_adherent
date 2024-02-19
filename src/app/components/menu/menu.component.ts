@@ -64,24 +64,39 @@ export class MenuComponent implements OnInit {
 
 
   ngOnInit() {
-    this.tabs = [
-      { label: 'Matériel', icon: 'pi pi-fw pi-box', command: () => this.openMaterialList() },
-      { label: 'Membres', icon: 'pi pi-fw pi-user', command: () => this.openMemberList() },
-    ];
-
-    this.profileMenuItems = [
-      {
-        label: 'Groupes',
-        command: () => this.groups()
-      },
-      {
-        label: 'Mon profil',
-        command: () => this.myProfile()
-      },
-      {
-        label: 'Déconnexion',
-        command: () => this.disconnect()
-      }];
+    const activeMember = sessionStorage.getItem('currentMemberType') === 'Actif';
+    if(activeMember) {
+      this.tabs = [
+        { label: 'Matériel', icon: 'pi pi-fw pi-box', command: () => this.openMaterialList() },
+        { label: 'Membres', icon: 'pi pi-fw pi-user', command: () => this.openMemberList() },
+      ];
+      this.profileMenuItems = [
+        {
+          label: 'Groupes',
+          command: () => this.groups()
+        },
+        {
+          label: 'Mon profil',
+          command: () => this.myProfile()
+        },
+        {
+          label: 'Déconnexion',
+          command: () => this.disconnect()
+        }];
+    } else {
+      this.tabs = [
+        { label: 'Matériel', icon: 'pi pi-fw pi-box', command: () => this.openMaterialList() },
+      ];
+      this.profileMenuItems = [
+        {
+          label: 'Mon profil',
+          command: () => this.myProfile()
+        },
+        {
+          label: 'Déconnexion',
+          command: () => this.disconnect()
+        }];
+    }
 
     this.activeTab = this.tabs[this.tabSelected];
 

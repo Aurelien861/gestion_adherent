@@ -115,6 +115,12 @@ export class MaterialListComponent implements OnInit{
     this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Ta commande est passée' });
   }
 
+  validMaterial(material: Material) {
+    this.loadMaterial();
+    const message = 'Nouveau produit: ' + material.brand + ' ' + material.model + ' ajouté';
+    this.messageService.add({ severity: 'success', summary: 'Succès', detail: message });
+  }
+
   openAddDialog() {
     this.isAddDialogOpen = true;
   }

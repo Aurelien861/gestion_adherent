@@ -35,7 +35,6 @@ export class OrderMaterialComponent implements OnInit{
             this.activeMember = member;
             break;
           }
-          console.log("laaaaaa: ", this.activeMember);
         }
       });
     }

@@ -116,7 +116,7 @@
     <h3>Ajout de matériel</h3>
   </ng-template>
   <div class="center-content">
-    <app-add-material #addMaterialForm></app-add-material>
+    <app-add-material (eventMaterialAdded)="validMaterial($event)" #addMaterialForm></app-add-material>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeAddDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>

@@ -15,6 +15,24 @@ export class MaterialService {
               private utils: UtilsService) {
   }
 
+  addMaterial(material: Material) : Observable<any> {
+    const addMaterialUrl = environment.apiHost + ApiUrls.material.create;
+    const body = JSON.stringify({
+      id: this.utils.generateId(12),
+      numeroDeSerie: material.serial,
+      marque: material.brand,
+      modele: material.model,
+      type: material.type,
+      prix: material.price,
+      idGroupe: material.groupId,
+      idCommande: '',
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(addMaterialUrl, body, {headers: headers});
+  }
+
   getMaterials(groupId: string): Observable<any> {
     const getAllGroupsUrl = environment.apiHost + ApiUrls.material.getAll;
     let params = new HttpParams().set('groupId', groupId);
